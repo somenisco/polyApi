@@ -3,9 +3,9 @@
 ## Table of Contents
 
 - [General Info](#general-information)
-- [Tech Stack/ Framework Used](#techs-used)
+- [Tech Stack/ Framework Used](#techstack/framework-used)
 - [Getting Started](#Getting-Started)
-- [Images](#screenshots)
+- [Images](#images)
 
 ## General Information
 
