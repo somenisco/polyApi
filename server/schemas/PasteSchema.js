@@ -1,15 +1,11 @@
 const mongoose = require("mongoose");
 const Access = require("./AccessSchema");
-const { customAlphabet } = require("nanoid");
-const alphabet =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-const nanoid = customAlphabet(alphabet, 8);
 
 const Schema = mongoose.Schema;
 
 const PasteSchema = new Schema(
   {
-    shortid: { type: String, unique: true, required: true, default: nanoid() },
+    shortid: { type: String, unique: true, required: true },
     content: { type: String, required: true },
     expiry: { type: Date, required: true, default: Date.now() + 86400000 },
     encrypted: { type: Boolean, required: true, default: false },

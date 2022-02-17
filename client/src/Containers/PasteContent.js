@@ -225,7 +225,7 @@ function PasteContent() {
           </CardActions>
         </Card>
       )}
-      {ipad.length > 0 && (
+      {ipad.length > 0 && state && (
         <Container>
           <p>accessed by ips</p>
           <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>
