@@ -9,6 +9,7 @@
 - [General Info](#general-information)
 - [Tech Stack/ Framework Used](#tech-stack/-framework-used)
 - [Getting Started](#Getting-Started)
+- [Features](#features)
 - [Images](#images)
 
 ## General Information
@@ -64,6 +65,17 @@ This is the list of things you need to use the software and how to install them.
    ATLAS_URI=
    ```
    for mongodb setup
+
+## Features
+
+- User can paste text snippets or documents.
+- User gets a short url after pasting their content.
+- The saved content have a default expiration time of 1 day. They will be automatically removed from the database.
+- User can view recently created snippets.
+- User can manually delete or renew the expiration time of a content url.
+- User gets track of ips accessing the content url.
+- User can also encrypt their content with a key.
+- User can paste a url and get a short url which will redirect to the original url.
 
 ## Images
 
