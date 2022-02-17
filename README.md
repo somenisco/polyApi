@@ -3,12 +3,9 @@
 ## Table of Contents
 
 - [General Info](#general-information)
-- [Languages Used](#Languages-used)
-- [Features](#features)
-- [Screenshots](#screenshots)
+- [Tech Stack/ Framework Used](#techs-used)
 - [Getting Started](#Getting-Started)
-- [Project Status](#project-status)
-- [Contributors](#Contributors)
+- [Images](#screenshots)
 
 ## General Information
 
