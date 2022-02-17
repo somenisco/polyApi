@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [General Info](#general-information)
-- [Tech Stack/ Framework Used](#techstack/framework-used)
+- [Tech Stack/ Framework Used](#tech-stack/-framework-used)
 - [Getting Started](#Getting-Started)
 - [Images](#images)
 
