@@ -60,6 +60,10 @@ This is the list of things you need to use the software and how to install them.
 
 3. follow readme in the client folder for client side setup
 
+   ```sh
+   cd client
+   ```
+
 4. On file .env in server folder add the followings
    ```sh
    ATLAS_URI=
