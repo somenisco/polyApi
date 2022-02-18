@@ -62,12 +62,19 @@ This is the list of things you need to use the software and how to install them.
    npm run client-install
    ```  
 
-4. add a .env file in the root folder and add the followings
+4. Add a .env file in the root folder and add the followings
 
    ```sh
    ATLAS_URI=
    ```
    for mongodb setup
+
+5. Run application locally
+
+    ```sh
+   npm run dev
+   ```  
+   
 
 ## Features
 
