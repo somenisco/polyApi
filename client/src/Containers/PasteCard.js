@@ -13,8 +13,16 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function PasteCard({ paste }) {
+  const [message, setMessage] = useState("");
+  const [opensnack, setOpensnack] = useState(false);
   const [expiry, setExpiry] = useState(0);
   let navigate = useNavigate();
   const handleDelete = (event) => {
@@ -22,6 +30,8 @@ export default function PasteCard({ paste }) {
       .delete(`/paste/${paste.shortid}`)
       .then(function (response) {
         console.log(response.data);
+        setMessage("Deleted.");
+        setOpensnack(true);
         navigate(0);
       })
       .catch((error) => {
@@ -38,16 +48,44 @@ export default function PasteCard({ paste }) {
       .put(`/paste/edit/${paste.shortid}`, { expiry })
       .then(function (response) {
         console.log(response.data);
+        setMessage("Renewed expiration time.");
+        setOpensnack(true);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpensnack(false);
+  };
+
   return (
     <Card sx={{ minWidth: 500, margin: "10px" }}>
       <CardContent sx={{ textAlign: "left" }}>
-        <Typography variant="body1">{paste.content}</Typography>
+        {paste.encrypted ? (
+          <Typography gutterBottom variant="h5" component="div">
+            {paste.title} [Encrypted Content]
+          </Typography>
+        ) : (
+          <Typography gutterBottom variant="h5" component="div">
+            {paste.title}
+          </Typography>
+        )}
+        {paste.encrypted ? (
+          <Typography
+            variant="body1"
+            sx={{ color: "transparent", textShadow: "0 0 7px #000" }}
+          >
+            {paste.content}
+          </Typography>
+        ) : (
+          <Typography variant="body1">{paste.content}</Typography>
+        )}
       </CardContent>
       <CardActions>
         <Button variant="contained" size="small">
@@ -89,6 +127,16 @@ export default function PasteCard({ paste }) {
           renew
         </Button>
       </CardActions>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={opensnack}
+        autoHideDuration={4000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </Card>
   );
 }

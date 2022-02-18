@@ -9,7 +9,6 @@ import Checkbox from "@mui/material/Checkbox";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import KeyIcon from "@mui/icons-material/Key";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -22,17 +21,22 @@ function PasteArea() {
   const [content, setContent] = useState("");
   const [encrypt, setencrypt] = useState(false);
   const [password, setpassword] = useState("");
+  const [title, settitle] = useState("");
 
   const handleChange = (event) => {
     setContent(event.target.value);
   };
 
   const createPaste = (event) => {
+    if (!content || !title) {
+      return alert("fill required details.");
+    }
+
     var newcontent;
     if (encrypt) {
-      newcontent = { content, encrypt, password };
+      newcontent = { content, encrypt, password, title };
     } else {
-      newcontent = { content, encrypt };
+      newcontent = { content, encrypt, title };
     }
 
     axios
@@ -60,7 +64,7 @@ function PasteArea() {
   };
 
   return (
-    <div style={{width: "100%"}}>
+    <div style={{ width: "100%" }}>
       <Drawer
         variant="permanent"
         sx={{
@@ -82,7 +86,7 @@ function PasteArea() {
               <ListItemText primary="encrypt" />
             </ListItem>
             <ListItem>
-              <KeyIcon sx={{margin: "3px"}} />
+              <KeyIcon sx={{ margin: "3px" }} />
               <TextField
                 id="outlined-password-input"
                 label="key"
@@ -94,6 +98,14 @@ function PasteArea() {
               />
             </ListItem>
             <ListItem>
+              <TextField
+                id="title"
+                label="Title"
+                value={title}
+                onChange={(e) => settitle(e.target.value)}
+              />
+            </ListItem>
+            <ListItem>
               <Button fullWidth variant="contained" onClick={createPaste}>
                 Create Paste
               </Button>
@@ -101,7 +113,7 @@ function PasteArea() {
           </List>
         </Box>
       </Drawer>
-      <Box sx={{margin: "20px", marginLeft: "255px"}}>
+      <Box sx={{ margin: "20px", marginLeft: "255px" }}>
         <Toolbar />
         <TextField
           id="filled-multiline-static"

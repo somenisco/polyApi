@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const PasteSchema = new Schema(
   {
     shortid: { type: String, unique: true, required: true },
+    title: { type: String, required: true },
     content: { type: String, required: true },
     expiry: { type: Date, required: true, default: Date.now() + 86400000 },
     encrypted: { type: Boolean, required: true, default: false },

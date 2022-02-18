@@ -21,24 +21,24 @@ function NavBar() {
           >
             <Link
               underline="none"
-              variant="body1"
+              variant="h5"
               href="/"
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              Home
+              PolyAPI
             </Link>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
+          <Typography variant="h6" noWrap component="div">
             <Link
               underline="none"
-              variant="body1"
+              variant="h6"
               href="/pastes"
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              recent pastes
+              Recent Snippets
             </Link>
-          </Box>
-          <Typography variant="h6" noWrap component="div"></Typography>
+          </Typography>
         </Toolbar>
       </AppBar>
     </div>

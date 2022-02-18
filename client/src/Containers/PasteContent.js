@@ -16,9 +16,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import BasicTable from "./BasicTable";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const style = {
   position: "absolute",
@@ -46,6 +50,9 @@ function PasteContent() {
   }
 
   let navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [opensnack, setOpensnack] = useState(false);
+  const [title, settitle] = useState("");
   const [state, setstate] = useState("");
   const [expiry, setExpiry] = useState(0);
   const [errormsg, seterrormsg] = useState("");
@@ -61,19 +68,6 @@ function PasteContent() {
   var url = "/paste/" + pasteid;
   useEffect(() => {
     axios
-      .get(`/paste/access/${pasteid}`)
-      .then(function (response) {
-        const arr = response.data;
-        console.log(arr);
-        setipad([]);
-        arr.map((a) => {
-          setipad((ipad) => [...ipad, a]);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
       .get(url)
       .then(function (response) {
         // console.log(response.data);
@@ -83,6 +77,7 @@ function PasteContent() {
           if (validURL(response.data.content)) {
             window.location.href = response.data.content;
           } else {
+            settitle(response.data.title);
             setstate(response.data.content);
           }
         }
@@ -90,6 +85,18 @@ function PasteContent() {
       .catch((error) => {
         console.log(error);
         setstate("not found");
+      });
+    axios
+      .get(`/paste/access/${pasteid}`)
+      .then(function (response) {
+        const arr = response.data;
+        setipad([]);
+        arr.map((a) => {
+          setipad((ipad) => [...ipad, a]);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, [navigate]);
 
@@ -103,18 +110,14 @@ function PasteContent() {
     axios
       .post(`/paste/encrypted/${pasteid}`, { password })
       .then(function (response) {
-        console.log(response.data);
         if (response.data.message) {
-          console.log(response.data.message);
           seterrormsg(response.data.message);
           setpassword("");
         } else {
           if (validURL(response.data.content)) {
             window.location.href = response.data.content;
           } else {
-            console.log(response.data.content);
             setstate(response.data.content);
-            console.log(state);
           }
           setOpen(false);
         }
@@ -132,7 +135,8 @@ function PasteContent() {
     axios
       .put(`/paste/edit/${pasteid}`, { expiry })
       .then(function (response) {
-        console.log(response.data);
+        setMessage("Renewed expiration time.");
+        setOpensnack(true);
       })
       .catch((error) => {
         console.log(error);
@@ -143,7 +147,8 @@ function PasteContent() {
     axios
       .delete(`/paste/${pasteid}`)
       .then(function (response) {
-        console.log(response.data);
+        setMessage("Deleted.");
+        setOpensnack(true);
         navigate(0);
       })
       .catch((error) => {
@@ -151,8 +156,26 @@ function PasteContent() {
       });
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpensnack(false);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ marginTop: "100px" }}>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={opensnack}
+        autoHideDuration={4000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
@@ -191,6 +214,9 @@ function PasteContent() {
       {state && (
         <Card sx={{ minWidth: 500 }}>
           <CardContent sx={{ textAlign: "left" }}>
+            <Typography gutterBottom variant="h5" component="div">
+              {title}
+            </Typography>
             <Typography variant="body1">{state}</Typography>
           </CardContent>
           <CardActions>
@@ -225,21 +251,7 @@ function PasteContent() {
           </CardActions>
         </Card>
       )}
-      {ipad.length > 0 && state && (
-        <Container>
-          <p>accessed by ips</p>
-          <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>
-            {ipad.map((p) => {
-              return (
-                <ListItem key={p._id}>
-                  <ListItemText primary={p.ipadd} />
-                  <p>{p.createdAt}</p>
-                </ListItem>
-              );
-            })}
-          </List>
-        </Container>
-      )}
+      {ipad.length > 0 && state && <BasicTable ipad={ipad} />}
     </Container>
   );
 }

@@ -8,8 +8,8 @@ const nanoid = customAlphabet(alphabet, 10);
 
 const createPaste = async (req, res, next) => {
   try {
-    const { content, encrypt } = req.body;
-    const newPaste = new Paste({ content, encrypted: encrypt });
+    const { content, encrypt, title } = req.body;
+    const newPaste = new Paste({ content, encrypted: encrypt, title });
     if (encrypt) {
       const { password } = req.body;
       const hashedPassword = await bcrypt.hash(password, saltRounds);

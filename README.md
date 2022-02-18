@@ -45,30 +45,25 @@ This is the list of things you need to use the software and how to install them.
 ### Installation
 
 1. Clone the repo
+
    ```sh
    git clone https://github.com/somenisco/polyApi.git
    ```
+   
 2. Install NPM packages for backend part
-
-   ```sh
-   cd server
-   ```
 
    ```sh
    npm install
    ```
 
-   ```sh
-   npm start
-   ```
+3. Install NPM packages for frontend part
 
-3. follow readme in the client folder for client side setup
+    ```sh
+   npm run client-install
+   ```  
 
-   ```sh
-   cd client
-   ```
+4. add a .env file in the root folder and add the followings
 
-4. On file .env in server folder add the followings
    ```sh
    ATLAS_URI=
    ```

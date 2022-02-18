@@ -11,7 +11,8 @@ const getIps = async (req, res, next) => {
     ips.sort(function (a, b) {
       return b.createdAt - a.createdAt;
     });
-    res.status(200).json(ips);
+    var limitedips = ips.slice(0, 5);
+    res.status(200).json(limitedips);
   } catch (err) {
     const errormessage = err.message;
     res.status(400).json({ errormessage });
